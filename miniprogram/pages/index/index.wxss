@@ -24,7 +24,7 @@
 	justify-content: flex-end;
 	padding-right: 20rpx; /* 与轮播左右间隙保持一致 */
 	margin-top: 12rpx;
-	margin-bottom: 12rpx;
+	margin-bottom: 20rpx;
 }
 
 .more-text {
