@@ -1,0 +1,17 @@
+<view class="detail-page">
+  <view class="header">
+    <view class="title">{{title}}</view>
+    <view class="meta-row">
+      <text class="date">{{date}}</text>
+      <text class="status {{statusClass}}">{{status}}</text>
+      <text class="creator">创建者：{{creator}}</text>
+    </view>
+  </view>
+
+  <image src="{{src}}" class="detail-image" mode="aspectFit" />
+
+  <view class="content">
+    <view class="section-title">项目描述</view>
+    <view class="description">这是示例项目的描述，实际项目可以在这里展示更多信息。</view>
+  </view>
+</view>

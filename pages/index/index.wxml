@@ -1,6 +1,0 @@
-<view>
-    <view class="cover">
-        <image src="/image/logo.png" class="logo">
-    </view>
-    <view class="title">Hi</view>
-</view>

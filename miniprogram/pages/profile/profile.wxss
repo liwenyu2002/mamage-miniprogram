@@ -1,0 +1,2 @@
+.page{ padding: 30rpx; color: #fff }
+.placeholder{ background: rgba(255,255,255,0.05); padding: 30rpx; border-radius: 12rpx }

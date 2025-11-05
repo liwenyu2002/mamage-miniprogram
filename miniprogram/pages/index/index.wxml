@@ -1,7 +1,26 @@
-<view>
-  <!-- 点击封面可以选择并上传图片 -->
-  <view class="cover">
-    <image src="/images/logo.png" class="logo" />
+<view class="page-container">
+  <!-- 顶部照片轮播（仅保留轮播） -->
+  <swiper class="carousel" indicator-dots="true" autoplay="true" interval="3000" circular="true">
+    <block wx:for="{{images}}" wx:key="index">
+      <swiper-item>
+        <image src="{{item}}" class="carousel-image" mode="aspectFill" bindtap="previewImage" data-index="{{index}}" />
+      </swiper-item>
+    </block>
+  </swiper>
+  <!-- 右侧更多项目链接 -->
+  <view class="more-line" bindtap="goMore">
+    <text class="more-text">更多项目→</text>
   </view>
-  <view class="title" bind:tap="change">{{hello}}</view>
+  <!-- 首页下方显示 projects 中的前三个项目预览 -->
+  <view class="mini-list">
+    <block wx:for="{{topProjects}}" wx:key="index">
+      <view class="mini-item" bindtap="openDetail" data-index="{{index}}">
+        <image src="{{item.src}}" class="mini-image" mode="aspectFill" />
+        <view class="mini-meta">
+          <view class="mini-meta-text">{{item.date}} · {{item.title}}</view>
+        </view>
+        <view class="mini-status {{item.statusClass}}">{{item.status}}</view>
+      </view>
+    </block>
+  </view>
 </view>

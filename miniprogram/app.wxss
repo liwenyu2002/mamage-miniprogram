@@ -20,8 +20,24 @@ button::after{
 
 
 page {
-  background: #f6f6f6;
+  /* 全局背景改为黑色，文字默认白色以保证对比 */
+  background: #000000;
+  color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
+
+/* 全局可读性提升：把常见容器和文本颜色设为白色
+   如果某些页面有白色背景需求，可在单页样式中覆盖 */
+.container, .page, .content, view {
+  color: #ffffff;
+}
+
+/* 针对深色背景调整常见控件（按钮等），保持交互性 */
+button, .btn {
+  color: #ffffff;
+}
+
+/* 保持图片本身显示不受影响（图片保持原样） */
+/* 不对 image 添加空规则，保持默认行为（如需特殊样式可在页面局部覆盖） */

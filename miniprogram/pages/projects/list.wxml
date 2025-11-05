@@ -1,0 +1,13 @@
+<view class="page">
+  <block wx:for="{{items}}" wx:key="index">
+    <view class="album-item" bindtap="openDetail" data-index="{{index}}">
+      <image src="{{item.src}}" class="album-image" mode="aspectFill" />
+      <view class="meta">
+        <view class="meta-text">{{item.date}}  ·  {{item.title}}</view>
+      </view>
+      <view class="status {{item.statusClass}}">{{item.status}}</view>
+    </view>
+  </block>
+</view>
+<!-- 在页面底部包含自定义 tabbar 组件以实现与首页相同的底部导航覆盖效果 -->
+<custom-tab-bar />

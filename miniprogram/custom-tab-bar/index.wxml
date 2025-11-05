@@ -1,0 +1,15 @@
+<view class="tabbar">
+  <view class="tab-item" bindtap="switchTab" data-path="/pages/index/index" data-index="0">
+    <text class="icon">🏠</text>
+    <text class="label">首页</text>
+  </view>
+
+  <view class="tab-item tab-middle" bindtap="switchTab" data-path="/pages/upload/upload" data-index="1">
+    <view class="upload-btn">＋</view>
+  </view>
+
+  <view class="tab-item" bindtap="switchTab" data-path="/pages/profile/profile" data-index="2">
+    <text class="icon">👤</text>
+    <text class="label">我的</text>
+  </view>
+</view>

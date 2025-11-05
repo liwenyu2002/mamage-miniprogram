@@ -1,0 +1,19 @@
+<view class="page">
+  <view class="container">
+    <view class="field">
+      <text class="label">活动名称</text>
+      <input class="input" placeholder="请输入活动名称（必填）" value="{{name}}" bindinput="onNameInput" />
+    </view>
+
+    <view class="field">
+      <text class="label">终止时间</text>
+      <picker mode="date" bindchange="onDateChange" value="{{endDate}}">
+        <view class="picker">{{endDate || '请选择终止日期'}}</view>
+      </picker>
+    </view>
+
+    <view class="action-row">
+      <view class="publish-btn" bindtap="onPublish">发布</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,45 @@
+.tabbar{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 110rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+}
+
+.tab-item{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.tab-item .icon{ font-size: 32rpx; }
+.tab-item .label{ font-size: 22rpx; margin-top: 6rpx; }
+
+.tab-middle{ flex: 0 0 140rpx; transform: translateY(-20rpx); }
+.upload-btn{
+  width: 84rpx;
+  height: 84rpx;
+  background: #ff5a5f;
+  color: #fff;
+  border-radius: 42rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44rpx;
+  box-shadow: 0 6rpx 18rpx rgba(0,0,0,0.25);
+}
+
+/* 选中状态可在需要时通过 JS 添加 class */
+.tab-item.active .icon, .tab-item.active .label{
+  color: #ffd166;
+}
