@@ -17,7 +17,7 @@ Page({
   onPublish() {
     const { name, endDate } = this.data;
     if (!name || !name.trim()) {
-      wx.showToast({ title: '活动名称为必填项', icon: 'none' });
+      wx.showToast({ title: '任务名称为必填项', icon: 'none' });
       return;
     }
 

@@ -20,7 +20,7 @@ Page({
 
   // 发布任务（示例行为：弹出输入提示，然后确认）
   publishTask() {
-    // 临时改为跳转到调试页面以排查真机问题
-    wx.navigateTo({ url: '/pages/debug/test' });
+    // 跳转到发布页面
+    wx.navigateTo({ url: '/pages/upload/publish/publish' });
   }
 });
