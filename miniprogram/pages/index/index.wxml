@@ -1,7 +1,0 @@
-<view>
-  <!-- 点击封面可以选择并上传图片 -->
-  <view class="cover">
-    <image src="/images/logo.png" class="logo" />
-  </view>
-  <view class="title" bind:tap="change">{{hello}}</view>
-</view>
