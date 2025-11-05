@@ -1,0 +1,19 @@
+/* 封面容器：水平居中、垂直居中，并尽量放大图片显示 */
+.cover {
+	display: flex;
+	justify-content: center; /* 水平居中 */
+	align-items: center; /* 垂直居中 */
+	padding: 20rpx; /* 可选内边距 */
+	position: relative;
+	width: 100%;
+	max-width: 700rpx; /* 最大宽度（根据设计稿调整） */
+	margin: 0 auto; /* 居中容器 */
+}
+
+/* 图片尽量填满容器（居中最大） */
+.logo {
+	width: 100%;
+	object-fit: contain; /* 保持纵横比并完整显示 */
+	border-radius: 7ch;
+}
+
