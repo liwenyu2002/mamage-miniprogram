@@ -1,0 +1,12 @@
+<view class="gallery" wx:if="{{images && images.length}}">
+  <view class="gallery-title">项目照片</view>
+  <view class="gallery-grid">
+    <block wx:for="{{images}}" wx:key="index">
+      <view class="gallery-item-grid" bindtap="previewImage" data-index="{{index}}">
+        <view class="thumb-wrap">
+          <image src="{{item}}" class="gallery-thumb-grid" mode="aspectFill" />
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

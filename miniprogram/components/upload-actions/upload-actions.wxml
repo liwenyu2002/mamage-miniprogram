@@ -1,0 +1,4 @@
+<view class="btn-group">
+  <view class="big-btn upload-photo" bindtap="onUpload">上传照片</view>
+  <view class="big-btn publish-task" bindtap="onPublish">发布任务</view>
+</view>

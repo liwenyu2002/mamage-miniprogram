@@ -1,0 +1,5 @@
+.mini-item{display:flex;align-items:center;padding:8px 12px}
+.mini-image{width:80px;height:80px;border-radius:6px}
+.mini-meta{flex:1;padding-left:12px}
+.mini-meta-text{color:#fff}
+.mini-status{padding-left:8px;color:#fff}

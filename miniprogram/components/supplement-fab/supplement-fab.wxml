@@ -1,0 +1,3 @@
+<view class="supplement-fab" bindtap="onTap">
+  <text class="supplement-text">我要补充照片</text>
+</view>
