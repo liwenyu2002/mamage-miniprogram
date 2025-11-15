@@ -6,6 +6,56 @@ const _sfc_main = {
   onLaunch: function() {
     console.log("App Launch");
 
+    // Wrap file system manager to dynamically create missing files when accessed
+    try {
+      if (wx.getFileSystemManager) {
+        const origFs = wx.getFileSystemManager();
+        const normalize = p => (typeof p === 'string' && p.startsWith('wxfile://')) ? p.replace('wxfile://', '') : p;
+
+        // override access to attempt to create missing files dynamically
+        const origAccess = origFs.access.bind(origFs);
+        origFs.access = function(opts = {}) {
+          try {
+            const userPath = opts.path || opts.filePath;
+            const path = normalize(userPath || '');
+            const success = opts.success;
+            const fail = opts.fail;
+
+            const wrapped = Object.assign({}, opts);
+            wrapped.path = path;
+            wrapped.success = function(res) {
+              if (typeof success === 'function') success(res);
+            };
+            wrapped.fail = function(err) {
+              // Attempt to create parent directory and an empty file, then call success
+              try {
+                const idx = path.lastIndexOf('/');
+                const parent = idx > 0 ? path.substring(0, idx) : path;
+                origFs.mkdir({
+                  dirPath: parent,
+                  success: () => {
+                    origFs.writeFile({ filePath: path, data: '', success: () => { if (typeof success === 'function') success({}); }, fail: () => { if (typeof fail === 'function') fail(err); } });
+                  },
+                  fail: () => {
+                    // mkdir failed or not needed, still try to write file
+                    origFs.writeFile({ filePath: path, data: '', success: () => { if (typeof success === 'function') success({}); }, fail: () => { if (typeof fail === 'function') fail(err); } });
+                  }
+                });
+              } catch (e) {
+                if (typeof fail === 'function') fail(e);
+              }
+            };
+
+            return origAccess(wrapped);
+          } catch (e) {
+            if (typeof opts.fail === 'function') opts.fail(e);
+          }
+        };
+      }
+    } catch (e) {
+      console.warn('fs wrapper install failed', e);
+    }
+
     // 检查并创建文件
     try {
       const fs = wx.getFileSystemManager();
