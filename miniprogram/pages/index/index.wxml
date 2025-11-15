@@ -15,7 +15,7 @@
   <view class="mini-list">
     <block wx:for="{{topProjects}}" wx:key="index">
       <view class="mini-item" bindtap="openDetail" data-index="{{index}}">
-        <image src="{{item.src}}" class="mini-image" mode="aspectFill" />
+        <image src="{{item.src}}" class="mini-image" mode="aspectFill" binderror="onImageError" data-index="{{index}}" />
         <view class="mini-meta">
           <view class="mini-meta-text">{{item.date}} · {{item.title}}</view>
         </view>

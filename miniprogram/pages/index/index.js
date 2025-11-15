@@ -68,11 +68,21 @@ Page({
           };
         }).filter(item => item.src); // 没封面图的先过滤掉
 
+        console.log('loadTopProjects -> covers:', projects.map(pr => pr.src));
         this.setData({ topProjects: projects });
       })
       .catch(err => {
         console.error('load top projects failed', err);
       });
+  },
+
+  // image load error handler for debugging on real device
+  onImageError(e) {
+    const idx = e.currentTarget.dataset.index;
+    const err = e && e.detail ? e.detail.errMsg : 'unknown image error';
+    console.error('image load error index=', idx, 'err=', err);
+    // 显示提示，便于在真机调试时观察
+    wx.showToast({ title: '图片加载失败', icon: 'none', duration: 2000 });
   },
 
   // 首页用的封面图规则，和 detail 页保持一致的思路
