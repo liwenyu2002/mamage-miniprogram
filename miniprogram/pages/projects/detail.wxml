@@ -1,4 +1,5 @@
 <view class="detail-page">
+  <!-- 头部信息 -->
   <view class="header">
     <view class="title">{{title}}</view>
     <view class="meta-row">
@@ -8,10 +9,33 @@
     </view>
   </view>
 
+  <!-- 顶部封面图：注意这里用的是 src -->
   <image src="{{src}}" class="detail-image" mode="aspectFit" />
 
+  <!-- 项目描述 -->
   <view class="content">
     <view class="section-title">项目描述</view>
-    <view class="description">这是示例项目的描述，实际项目可以在这里展示更多信息。</view>
+    <view class="description">{{description}}</view>
+  </view>
+
+  <!-- 图片画廊 -->
+  <view class="gallery" wx:if="{{images && images.length}}">
+    <view class="gallery-title">
+      项目照片（共 {{images.length}} 张）
+    </view>
+    <view class="gallery-grid">
+      <block wx:for="{{images}}" wx:key="index">
+        <view class="gallery-item-grid" bindtap="previewImage" data-index="{{index}}">
+          <view class="thumb-wrap">
+            <image src="{{item}}" class="gallery-thumb-grid" mode="aspectFill" />
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 悬浮“我要补充照片”按钮（如果你已经有对应的 goSupplementPhotos，就保留；没有就可以删掉这一块） -->
+  <view class="supplement-fab" bindtap="goSupplementPhotos">
+    我要补充照片
   </view>
 </view>

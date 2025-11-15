@@ -1,24 +1,43 @@
-.page{ height:100vh; box-sizing:border-box; background: transparent; color: #fff; padding: 40rpx 24rpx 0 }
-.container{ background: rgba(255,255,255,0.03); padding: 28rpx; border-radius: 16rpx; flex: 1 }
-.field{ margin-bottom: 28rpx }
-.label{ display:block; color:#ddd; font-size:26rpx; margin-bottom:10rpx }
-.required{ color:#ffb3b3; font-size:24rpx }
-.input{ width:100%; height:64rpx; padding:0 18rpx; background: rgba(255,255,255,0.04); color:#fff; border-radius:10rpx; border:1rpx solid rgba(255,255,255,0.03); font-size:28rpx }
-.picker{ height:64rpx; line-height:64rpx; padding:0 18rpx; background: rgba(255,255,255,0.02); color:#ddd; border-radius:10rpx; border:1rpx solid rgba(255,255,255,0.02) }
-
-/* Reuse big button styles similar to upload page */
-.btn-group{ display: flex; flex-direction: column; height:50vh; box-sizing: border-box }
-.big-btn{
-	flex: 1;
-	margin: 20rpx; /* maintain gap around each button */
-	border-radius: 20rpx;
-	font-size: 36rpx;
-	font-weight: bold;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border: none;
+.upload-home {
+  padding: 40rpx 32rpx;
+  color: #fff;
 }
-.publish-action{ background: #e6e6e6; color: #111; border: 1rpx solid rgba(0,0,0,0.06) }
 
-.big-btn:active{ opacity: 0.95 }
+.title {
+  font-size: 34rpx;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+}
+
+.subtitle {
+  font-size: 24rpx;
+  color: #cccccc;
+  margin-bottom: 32rpx;
+}
+
+.card {
+  background: #1f1f1f;
+  border-radius: 20rpx;
+  padding: 24rpx 24rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.25);
+}
+
+.card:active {
+  opacity: 0.9;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 8rpx;
+}
+
+.card-desc {
+  font-size: 24rpx;
+  color: #bbbbbb;
+}
+
+.secondary {
+  background: #262626;
+}

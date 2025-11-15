@@ -1,34 +1,49 @@
+// pages/upload/publish/publish.js
+
 Page({
   data: {
-    name: '',
-    endDate: ''
+    // 如果以后从某个项目跳过来，可以带 projectId；现在可以先不管
+    projectId: null
   },
 
-  onLoad() {},
-
-  onNameInput(e) {
-    this.setData({ name: e.detail.value });
-  },
-
-  onDateChange(e) {
-    this.setData({ endDate: e.detail.value });
-  },
-
-  onPublish() {
-    const { name, endDate } = this.data;
-    if (!name || !name.trim()) {
-      wx.showToast({ title: '任务名称为必填项', icon: 'none' });
-      return;
+  onLoad(options) {
+    const projectId = options && options.projectId ? Number(options.projectId) : null;
+    if (projectId) {
+      this.setData({ projectId });
     }
+  },
 
-    // 简单示例：模拟发布并返回上一页
-    wx.showLoading({ title: '发布中...' });
-    setTimeout(() => {
-      wx.hideLoading();
-      // 生成一个简单的邀请码（8位字母数字）
-      const code = Math.random().toString(36).slice(2, 10).toUpperCase();
-      // 跳转到发布成功页并带上 code，成功页负责绘制二维码并提供复制/保存功能
-      wx.navigateTo({ url: `/pages/upload/publish_success/publish_success?code=${code}` });
-    }, 800);
+  // 跳到“上传到项目”页面（真正干活的那个页面）
+  goUploadToProject() {
+    const pid = this.data.projectId;
+
+    const url = pid
+      ? `/pages/upload/upload_to_project/upload_to_project?projectId=${pid}`
+      : `/pages/upload/upload_to_project/upload_to_project`;
+
+    wx.navigateTo({ url });
+  },
+
+  // 如果你以后想加“快速从相册选几张然后再去选择项目”，可以用这个
+  quickChooseAndGo() {
+    const self = this;
+    wx.chooseImage({
+      count: 9,
+      sizeType: ['compressed'],
+      sourceType: ['album', 'camera'],
+      success(res) {
+        const files = res.tempFilePaths || [];
+        wx.showToast({
+          title: `已选择 ${files.length} 张，将前往选择项目`,
+          icon: 'none'
+        });
+
+        // 这里先简单直接跳到上传页，让 upload_to_project 自己处理选择项目+上传
+        self.goUploadToProject();
+      },
+      fail() {
+        wx.showToast({ title: '选择取消', icon: 'none' });
+      }
+    });
   }
 });

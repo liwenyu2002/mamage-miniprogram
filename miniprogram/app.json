@@ -2,12 +2,13 @@
   "pages": [
     "pages/index/index",
   "pages/upload/upload",
-  "pages/debug/test",
   "pages/upload/publish/publish",
   "pages/upload/publish_success/publish_success",
     "pages/profile/profile",
     "pages/projects/list"
-    ,"pages/projects/detail"
+    ,"pages/projects/detail",
+    "pages/upload/upload_to_project/upload_to_project"
+
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
