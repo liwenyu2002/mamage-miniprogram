@@ -6,7 +6,15 @@ const { BASE_URL } = require('../../utils/request.js');
 
 function normalizeUrl(u) {
   if (!u) return null;
-  if (/^https?:\/\//i.test(u)) return u;
+  // 如果已经是绝对 URL
+  if (/^https?:\/\//i.test(u)) {
+    // 若为 http 且我们使用的是 https 的 BASE_URL，则把 origin 替换为 BASE_URL 的 origin，强制使用 HTTPS
+    if (/^http:\/\//i.test(u) && /^https:\/\//i.test(BASE_URL)) {
+      const path = u.replace(/^https?:\/\/[^\/]+/i, '');
+      return (BASE_URL || '').replace(/\/$/, '') + path;
+    }
+    return u;
+  }
   if (u.startsWith('/')) return (BASE_URL || '').replace(/\/$/, '') + u;
   return (BASE_URL || '').replace(/\/$/, '') + '/' + u;
 }
@@ -68,21 +76,11 @@ Page({
           };
         }).filter(item => item.src); // 没封面图的先过滤掉
 
-        console.log('loadTopProjects -> covers:', projects.map(pr => pr.src));
         this.setData({ topProjects: projects });
       })
       .catch(err => {
         console.error('load top projects failed', err);
       });
-  },
-
-  // image load error handler for debugging on real device
-  onImageError(e) {
-    const idx = e.currentTarget.dataset.index;
-    const err = e && e.detail ? e.detail.errMsg : 'unknown image error';
-    console.error('image load error index=', idx, 'err=', err);
-    // 显示提示，便于在真机调试时观察
-    wx.showToast({ title: '图片加载失败', icon: 'none', duration: 2000 });
   },
 
   // 首页用的封面图规则，和 detail 页保持一致的思路

@@ -5,7 +5,13 @@ const { BASE_URL } = require('../../utils/request.js');
 
 function normalizeUrl(u) {
   if (!u) return null;
-  if (/^https?:\/\//i.test(u)) return u;
+  if (/^https?:\/\//i.test(u)) {
+    if (/^http:\/\//i.test(u) && /^https:\/\//i.test(BASE_URL)) {
+      const path = u.replace(/^https?:\/\/[^\/]+/i, '');
+      return (BASE_URL || '').replace(/\/$/, '') + path;
+    }
+    return u;
+  }
   if (u.startsWith('/')) return (BASE_URL || '').replace(/\/$/, '') + u;
   return (BASE_URL || '').replace(/\/$/, '') + '/' + u;
 }
