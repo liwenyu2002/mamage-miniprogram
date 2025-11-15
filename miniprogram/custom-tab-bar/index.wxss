@@ -36,8 +36,9 @@
 }
 
 .tab-item.active{
-  color: #ffd166;
-  font-weight: 600;
+  /* 取消选中样式变化：保持与未选中时一致 */
+  color: rgba(255,255,255,0.9);
+  font-weight: normal;
 }
 
 .tab-item .label{ font-size: 28rpx; }
