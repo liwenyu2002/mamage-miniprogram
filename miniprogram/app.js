@@ -1,6 +1,50 @@
 // app.js
 App({
   onLaunch: function () {
+    // 尝试创建本地日志目录和占位日志文件，避免真机运行时因缺失路径报错
+    try {
+      const fs = wx.getFileSystemManager();
+      const logDirPath = `${wx.env.USER_DATA_PATH}/miniprogramLog`;
+      const logFiles = ['log1', 'log2', 'log3'];
+
+      // 检查并创建目录
+      fs.access({
+        path: logDirPath,
+        success: () => {
+          // 目录存在，确保文件存在
+          logFiles.forEach(name => {
+            const filePath = `${logDirPath}/${name}`;
+            fs.access({
+              path: filePath,
+              success: () => {},
+              fail: () => {
+                // 创建空文件
+                try { fs.writeFileSync ? fs.writeFileSync(filePath, '') : fs.writeFile({filePath, data: ''}); } catch (e) { try { fs.writeFile({filePath, data: ''}); } catch (err) {} }
+              }
+            });
+          });
+        },
+        fail: () => {
+          // 目录不存在，创建目录并写入文件
+          fs.mkdir({
+            dirPath: logDirPath,
+            success: () => {
+              logFiles.forEach(name => {
+                const filePath = `${logDirPath}/${name}`;
+                try { fs.writeFileSync ? fs.writeFileSync(filePath, '') : fs.writeFile({filePath, data: ''}); } catch (e) { try { fs.writeFile({filePath, data: ''}); } catch (err) {} }
+              });
+            },
+            fail: (err) => {
+              console.warn('创建日志目录失败', err);
+            }
+          });
+        }
+      });
+    } catch (e) {
+      // 在某些环境下 wx.getFileSystemManager 可能不存在，忽略错误
+      console.warn('初始化本地日志目录时出错', e);
+    }
+
     this.globalData = {
       // env 参数说明：
       //   env 参数决定接下来小程序发起的云开发调用（wx.cloud.xxx）会默认请求到哪个云环境的资源
@@ -17,20 +61,4 @@ App({
       });
     }
   },
-
-  // 全局错误处理：静默特定的设备日志读取错误，减少真机控制台噪声
-  onError(err) {
-    try {
-      const msg = typeof err === 'string' ? err : (err && err.message) ? err.message : JSON.stringify(err);
-      if (msg && msg.indexOf('wxfile://usr/miniprogramLog') !== -1) {
-        // 这是微信运行时/原生模块尝试读取设备日志路径产生的错误，通常不影响业务
-        console.warn('Suppressed device log access error:', msg);
-        return;
-      }
-      // 其余错误仍然打印并上报（如需，可集成上报到你们的错误收集系统）
-      console.error('App onError:', err);
-    } catch (e) {
-      console.error('onError handler failed', e);
-    }
-  }
 });
