@@ -10,14 +10,25 @@ const _sfc_main = {
     try {
       if (wx.getFileSystemManager) {
         const origFs = wx.getFileSystemManager();
-        const normalize = p => (typeof p === 'string' && p.startsWith('wxfile://')) ? p.replace('wxfile://', '') : p;
+        const creating = new Set();
 
-        // override access to attempt to create missing files dynamically
+        const normalizePath = p => {
+          if (!p) return '';
+          // strip wxfile:// prefix if present
+          if (p.startsWith('wxfile://')) p = p.replace('wxfile://', '');
+          // if path starts with 'usr/' or '/usr', prefix USER_DATA_PATH
+          if (p.startsWith('usr/') || p.startsWith('/usr')) {
+            const cleaned = p.replace(/^\/?usr\//, '');
+            return (wx.env && wx.env.USER_DATA_PATH ? wx.env.USER_DATA_PATH : '') + '/' + cleaned;
+          }
+          return p;
+        };
+
         const origAccess = origFs.access.bind(origFs);
         origFs.access = function(opts = {}) {
           try {
-            const userPath = opts.path || opts.filePath;
-            const path = normalize(userPath || '');
+            const userPath = opts.path || opts.filePath || '';
+            const path = normalizePath(userPath);
             const success = opts.success;
             const fail = opts.fail;
 
@@ -27,22 +38,49 @@ const _sfc_main = {
               if (typeof success === 'function') success(res);
             };
             wrapped.fail = function(err) {
-              // Attempt to create parent directory and an empty file, then call success
+              // If another creation is in progress for this path, wait briefly and call access again
+              if (creating.has(path)) {
+                setTimeout(() => {
+                  try { origAccess({ path, success: wrapped.success, fail: wrapped.fail }); } catch (e) { if (typeof fail === 'function') fail(e); }
+                }, 200);
+                return;
+              }
+              creating.add(path);
               try {
                 const idx = path.lastIndexOf('/');
                 const parent = idx > 0 ? path.substring(0, idx) : path;
-                origFs.mkdir({
-                  dirPath: parent,
-                  success: () => {
-                    origFs.writeFile({ filePath: path, data: '', success: () => { if (typeof success === 'function') success({}); }, fail: () => { if (typeof fail === 'function') fail(err); } });
-                  },
-                  fail: () => {
-                    // mkdir failed or not needed, still try to write file
-                    origFs.writeFile({ filePath: path, data: '', success: () => { if (typeof success === 'function') success({}); }, fail: () => { if (typeof fail === 'function') fail(err); } });
-                  }
-                });
-              } catch (e) {
-                if (typeof fail === 'function') fail(e);
+                const tryWrite = () => {
+                  origFs.writeFile({ filePath: path, data: '', success: () => { creating.delete(path); if (typeof success === 'function') success({}); }, fail: (we) => {
+                    creating.delete(path);
+                    // if file already exists, treat as success
+                    const msg = we && we.errMsg ? we.errMsg : '';
+                    if (msg.indexOf('file already exists') !== -1 || msg.indexOf('EEXIST') !== -1) {
+                      if (typeof success === 'function') success({});
+                      return;
+                    }
+                    if (typeof fail === 'function') fail(we);
+                  } });
+                };
+
+                if (parent && parent !== path) {
+                  // ensure parent exists
+                  origFs.mkdir({ dirPath: parent, success: () => { tryWrite(); }, fail: (me) => {
+                    // if parent already exists, still try writing; if mkdir reports already exists, treat as success
+                    const msg = me && me.errMsg ? me.errMsg : '';
+                    if (msg.indexOf('file already exists') !== -1 || msg.indexOf('EEXIST') !== -1) {
+                      tryWrite();
+                    } else {
+                      // tryWrite anyway
+                      tryWrite();
+                    }
+                    creating.delete(path);
+                  } });
+                } else {
+                  tryWrite();
+                }
+              } catch (e2) {
+                creating.delete(path);
+                if (typeof fail === 'function') fail(e2);
               }
             };
 
