@@ -17,4 +17,20 @@ App({
       });
     }
   },
+
+  // 全局错误处理：静默特定的设备日志读取错误，减少真机控制台噪声
+  onError(err) {
+    try {
+      const msg = typeof err === 'string' ? err : (err && err.message) ? err.message : JSON.stringify(err);
+      if (msg && msg.indexOf('wxfile://usr/miniprogramLog') !== -1) {
+        // 这是微信运行时/原生模块尝试读取设备日志路径产生的错误，通常不影响业务
+        console.warn('Suppressed device log access error:', msg);
+        return;
+      }
+      // 其余错误仍然打印并上报（如需，可集成上报到你们的错误收集系统）
+      console.error('App onError:', err);
+    } catch (e) {
+      console.error('onError handler failed', e);
+    }
+  }
 });
