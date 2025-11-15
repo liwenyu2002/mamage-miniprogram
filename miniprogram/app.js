@@ -10,7 +10,7 @@ const _sfc_main = {
     try {
       const fs = wx.getFileSystemManager();
       const logDirPath = `${wx.env.USER_DATA_PATH}/miniprogramLog`;
-      const logFiles = ['log1', 'log2', 'log3', 'log4'];
+      const logFiles = ['log1','log2','log3','log4','log5','log6','log7','log8','log9','log10'];
 
       // 创建目录
       fs.access({
