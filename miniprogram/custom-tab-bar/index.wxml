@@ -1,15 +1,15 @@
 <view class="tabbar">
   <view class="tab-capsule">
-    <view class="tab-item {{selected===0 ? 'active' : ''}}" bindtap="switchTab" data-path="/pages/index/index" data-index="0">
-      <text class="label">首页</text>
-    </view>
+      <view class="tab-item" bindtap="switchTab" data-path="/pages/index/index" data-index="0">
+        <text class="label">首页</text>
+      </view>
 
-    <view class="tab-item {{selected===1 ? 'active' : ''}}" bindtap="switchTab" data-path="/pages/upload/upload" data-index="1">
-      <text class="label">功能</text>
-    </view>
+      <view class="tab-item" bindtap="switchTab" data-path="/pages/upload/upload" data-index="1">
+        <text class="label">功能</text>
+      </view>
 
-    <view class="tab-item {{selected===2 ? 'active' : ''}}" bindtap="switchTab" data-path="/pages/profile/profile" data-index="2">
-      <text class="label">我的</text>
-    </view>
+      <view class="tab-item" bindtap="switchTab" data-path="/pages/profile/profile" data-index="2">
+        <text class="label">我的</text>
+      </view>
   </view>
 </view>
