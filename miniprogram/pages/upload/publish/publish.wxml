@@ -1,18 +1,27 @@
 <view class="upload-home">
-  <view class="title">上传项目照片</view>
-  <view class="subtitle">请选择你要进行的操作</view>
+  <view class="title">创建新任务</view>
+  <view class="subtitle">请填写任务信息并确认发布</view>
 
-  <!-- 主入口：去“上传到项目”页 -->
-  <view class="card" bindtap="goUploadToProject">
-    <view class="card-title">补充/上传项目照片</view>
-    <view class="card-desc">先选择项目，再从相册或相机中选择照片上传。</view>
-  </view>
+  <view class="card form-card">
+    <view class="form-row">
+      <view class="label">项目名称 <text class="required">*</text></view>
+      <input class="input" placeholder="请输入项目名称" value="{{projectName}}" bindinput="onNameInput" />
+    </view>
 
-  <!-- 可选：快速选图再去上传 -->
-  <!--
-  <view class="card secondary" bindtap="quickChooseAndGo">
-    <view class="card-title">先选照片再选择项目</view>
-    <view class="card-desc">快速从相册中选一批照片，然后去选择项目。</view>
+    <view class="form-row">
+      <view class="label">项目描述</view>
+      <textarea class="textarea" placeholder="请输入项目描述（可选）" value="{{description}}" bindinput="onDescriptionInput" auto-height="false" maxlength="1000" />
+    </view>
+
+    <view class="form-row picker-row">
+      <view class="label">开展日期</view>
+      <picker mode="date" value="{{eventDate}}" start="2000-01-01" end="2099-12-31" bindchange="onDateChange">
+        <view class="picker">{{eventDate || '请选择日期'}}</view>
+      </picker>
+    </view>
+
+    <view class="form-row">
+      <view class="btn primary" bindtap="confirmPublish">确认发布</view>
+    </view>
   </view>
-  -->
 </view>

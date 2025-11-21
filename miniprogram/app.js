@@ -2,6 +2,8 @@
 "use strict";
 
 // 模板风格的 app 定义，兼容小程序运行时的 App(...) 调用
+const transferStore = require('./utils/transferStore.js'); 
+
 const _sfc_main = {
   onLaunch: function() {
     console.log("App Launch");
@@ -179,5 +181,13 @@ function createApp() {
 
 // 注册小程序应用
 App(_sfc_main);
+App({
+  onLaunch() {
+    // 每次“重新进入小程序”（冷启动）时，把中转站清空
+    transferStore.clear();
+  },
 
+  // 如果你原来 app.js 里还有别的内容，一并保留就行
+  // globalData: { ... } 等等
+});
 module.exports = { createApp };

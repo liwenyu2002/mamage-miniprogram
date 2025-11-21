@@ -17,10 +17,19 @@
       <view class="mini-item" bindtap="openDetail" data-index="{{index}}">
         <image src="{{item.src}}" class="mini-image" mode="aspectFill" binderror="onImageError" data-index="{{index}}" />
         <view class="mini-meta">
-          <view class="mini-meta-text">{{item.date}} · {{item.title}}</view>
+          <view class="frost-row mini-date">{{item.date}}</view>
+          <view class="frost-row mini-title">{{item.title}}</view>
         </view>
-        <view class="mini-status {{item.statusClass}}">{{item.status}}</view>
+        <!-- 状态标签已隐藏 -->
       </view>
     </block>
   </view>
 </view>
+<transfer-fab
+  selected-count="{{selectedCount}}"
+  bind:confirm="onFabConfirm"
+  bind:cancel="onFabCancel"
+  bind:download="onFabDownload"
+/>
+
+

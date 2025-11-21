@@ -1,49 +1,73 @@
 // pages/upload/publish/publish.js
 
+const { request } = require('../../../utils/request.js');
+
 Page({
   data: {
-    // 如果以后从某个项目跳过来，可以带 projectId；现在可以先不管
-    projectId: null
+    projectId: null,
+    projectName: '',
+    description: '',
+    eventDate: '', // YYYY-MM-DD (开展日期)
+    submitting: false
   },
 
   onLoad(options) {
-    const projectId = options && options.projectId ? Number(options.projectId) : null;
-    if (projectId) {
-      this.setData({ projectId });
+    // 如果有来自其他页面传来的 data，尝试解析（保留兼容）
+    if (options && options.data) {
+      try {
+        const d = JSON.parse(decodeURIComponent(options.data));
+        if (d) {
+          if (d.projectId) this.setData({ projectId: Number(d.projectId) });
+          if (d.selected && Array.isArray(d.selected)) this.setData({ selected: d.selected });
+          if (d.uploaded && Array.isArray(d.uploaded)) this.setData({ uploaded: d.uploaded });
+        }
+      } catch (e) {
+        console.warn('publish onLoad parse data failed', e);
+      }
     }
   },
 
-  // 跳到“上传到项目”页面（真正干活的那个页面）
-  goUploadToProject() {
-    const pid = this.data.projectId;
-
-    const url = pid
-      ? `/pages/upload/upload_to_project/upload_to_project?projectId=${pid}`
-      : `/pages/upload/upload_to_project/upload_to_project`;
-
-    wx.navigateTo({ url });
+  onNameInput(e) {
+    this.setData({ projectName: e.detail.value });
   },
 
-  // 如果你以后想加“快速从相册选几张然后再去选择项目”，可以用这个
-  quickChooseAndGo() {
-    const self = this;
-    wx.chooseImage({
-      count: 9,
-      sizeType: ['compressed'],
-      sourceType: ['album', 'camera'],
-      success(res) {
-        const files = res.tempFilePaths || [];
-        wx.showToast({
-          title: `已选择 ${files.length} 张，将前往选择项目`,
-          icon: 'none'
-        });
+  onDescriptionInput(e) {
+    this.setData({ description: e.detail.value });
+  },
 
-        // 这里先简单直接跳到上传页，让 upload_to_project 自己处理选择项目+上传
-        self.goUploadToProject();
-      },
-      fail() {
-        wx.showToast({ title: '选择取消', icon: 'none' });
-      }
-    });
+  onDateChange(e) {
+    this.setData({ eventDate: e.detail.value });
+  },
+
+  // 确认发布：校验必填项并调用后端创建项目接口
+  async confirmPublish() {
+    const { projectName, description, eventDate, submitting } = this.data;
+    if (submitting) return;
+    if (!projectName || !projectName.trim()) {
+      return wx.showToast({ title: '项目名称为必填项', icon: 'none' });
+    }
+    // 使用开展日期字段（YYYY-MM-DD），接口参考 detail 页面使用的 `eventDate`
+    const payload = {
+      projectName: projectName.trim(),
+      description: description || '',
+      eventDate: eventDate || null
+    };
+
+    this.setData({ submitting: true });
+    try {
+      // 这里假设后端有 POST /api/projects 创建项目
+      const resp = await request('/api/projects', { method: 'POST', data: payload });
+      console.log('create project resp', resp);
+      wx.showToast({ title: '发布成功', icon: 'success' });
+      // 跳转到发布成功页面
+      setTimeout(() => {
+        wx.navigateTo({ url: '/pages/upload/publish_success/publish_success' });
+      }, 600);
+    } catch (err) {
+      console.error('create project failed', err);
+      wx.showToast({ title: '发布失败，请稍后重试', icon: 'none' });
+    } finally {
+      this.setData({ submitting: false });
+    }
   }
 });

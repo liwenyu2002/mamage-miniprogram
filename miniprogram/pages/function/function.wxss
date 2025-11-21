@@ -1,0 +1,53 @@
+/* pages/functions/functions.wxss */
+.page {
+  min-height: 100vh;
+  
+  padding: 32rpx 24rpx 48rpx;
+  box-sizing: border-box;
+}
+
+.page-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  margin-bottom: 32rpx;
+}
+
+.func-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+/* 正方形功能块 */
+.func-item {
+  width: 30%;             /* 三等分一行大约三个 */
+  aspect-ratio: 1 / 1;    /* 正方形（新版基础库支持） */
+  background-color: #282828;
+  border-radius: 24rpx;
+  box-shadow: 0 8rpx 24rpx rgba(255, 255, 255, 0.374);
+  margin-bottom: 24rpx;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+}
+
+.func-item:active {
+  transform: scale(0.97);
+  opacity: 0.9;
+}
+
+/* 图标，用 Emoji 占位，后面你可以换成 image */
+.func-icon {
+  font-size: 52rpx;
+  margin-bottom: 12rpx;
+}
+
+/* 文字 */
+.func-text {
+  font-size: 26rpx;
+  color: #ffffff;
+}

@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "MaMage"
+  "navigationBarTitleText": "首页",
+  "usingComponents": {
+    "transfer-fab": "/transfer-fab/transfer-fab"
   }
+}

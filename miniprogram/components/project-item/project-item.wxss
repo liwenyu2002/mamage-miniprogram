@@ -2,4 +2,7 @@
 .mini-image{width:80px;height:80px;border-radius:6px}
 .mini-meta{flex:1;padding-left:12px}
 .mini-meta-text{color:#fff}
-.mini-status{padding-left:8px;color:#fff}
+.mini-status{/* removed */}
+.frost-row{ background: rgba(255,255,255,0.06); color: #fff; padding: 6rpx 8rpx; border-radius: 8rpx; backdrop-filter: blur(6px); margin-bottom: 6rpx; display:block; width:auto; max-width:100%; box-sizing:border-box }
+.mini-date{ font-size:20rpx }
+.mini-title{ font-size:22rpx; font-weight:700 }

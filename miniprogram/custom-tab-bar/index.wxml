@@ -4,7 +4,7 @@
         <text class="label">首页</text>
       </view>
 
-      <view class="tab-item" bindtap="switchTab" data-path="/pages/upload/upload" data-index="1">
+      <view class="tab-item" bindtap="switchTab" data-path="/pages/function/function" data-index="1">
         <text class="label">功能</text>
       </view>
 

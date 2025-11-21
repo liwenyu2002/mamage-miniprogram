@@ -1,15 +1,19 @@
+<!-- pages/projects/detail.wxml -->
+
 <view class="detail-page">
   <!-- 头部信息 -->
   <view class="header">
     <view class="title">{{title}}</view>
     <view class="meta-row">
-      <text class="date">{{date}}</text>
-      <text class="status {{statusClass}}">{{status}}</text>
-      <text class="creator">创建者：{{creator}}</text>
+      <text class="date">
+        {{eventDate ? ('活动时间：' + eventDate + ' · ') : ''}}
+        创建：{{createdDate || date}} · 创建者：{{creator}}
+      </text>
+      <view class="edit-entry" bindtap="openEdit">修改信息</view>
     </view>
   </view>
 
-  <!-- 顶部封面图：注意这里用的是 src -->
+  <!-- 顶部封面图 -->
   <image src="{{src}}" class="detail-image" mode="aspectFit" />
 
   <!-- 项目描述 -->
@@ -18,24 +22,116 @@
     <view class="description">{{description}}</view>
   </view>
 
-  <!-- 图片画廊 -->
-  <view class="gallery" wx:if="{{images && images.length}}">
+  <!-- 图片画廊（不在上传模式时显示） -->
+  <view class="gallery" wx:if="{{!uploadMode && images && images.length}}">
     <view class="gallery-title">
       项目照片（共 {{images.length}} 张）
     </view>
+    <!-- 选择开关 -->
+    <view class="delete-toggle-fab" bindtap="toggleDeleteMode">
+      {{deleteMode ? '取消' : '选择'}}
+    </view>
+    <!-- 全选按钮 -->
+    <view wx:if="{{deleteMode}}" class="select-all-fab" bindtap="toggleSelectAll">
+      {{allSelected ? '取消全选' : '全选'}}
+    </view>
+
     <view class="gallery-grid">
       <block wx:for="{{images}}" wx:key="index">
-        <view class="gallery-item-grid" bindtap="previewImage" data-index="{{index}}">
+        <view class="gallery-item-grid" data-index="{{index}}" bindtap="onThumbTap">
           <view class="thumb-wrap">
-            <image src="{{item}}" class="gallery-thumb-grid" mode="aspectFill" />
+            <image src="{{item.url || item.url}}" class="gallery-thumb-grid" mode="aspectFill" />
+            <!-- 删除模式下的选择圆圈 -->
+            <view wx:if="{{deleteMode}}"
+                  class="delete-checkbox {{selectedMap[index] ? 'selected' : ''}}"
+                  data-index="{{index}}"
+                  catchtap="toggleSelect">
+              <text wx:if="{{selectedMap[index]}}">✓</text>
+            </view>
           </view>
         </view>
       </block>
     </view>
   </view>
 
-  <!-- 悬浮“我要补充照片”按钮（如果你已经有对应的 goSupplementPhotos，就保留；没有就可以删掉这一块） -->
+  <!-- 悬浮“我要补充照片”按钮 -->
   <view class="supplement-fab" bindtap="goSupplementPhotos">
-    我要补充照片
+    {{stagingImages && stagingImages.length ? '继续上传' : '我要补充照片'}}
+  </view>
+
+  <!-- 上传暂存区：上传模式下显示 -->
+  <block wx:if="{{uploadMode}}">
+    <view class="staging-area">
+      <view class="section-title">待上传预览（{{stagingImages.length}}）</view>
+      <view class="gallery-grid">
+        <block wx:for="{{stagingImages}}" wx:key="*this">
+          <view class="gallery-item-grid">
+            <view class="thumb-wrap">
+              <image src="{{item}}" class="gallery-thumb-grid" mode="aspectFill" />
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="upload-controls">
+        <view class="btn cancel" bindtap="cancelUpload">取消上传</view>
+        <view class="btn confirm" bindtap="confirmUpload">
+          {{uploading ? '上传中...' : ('确认上传（' + stagingImages.length + '）')}}
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 底部操作栏：保存 / 删除 -->
+  <view wx:if="{{selectedCount > 0}}" class="action-bar">
+    <view class="action-btn save-btn" bindtap="onSave">保存</view>
+    <view class="action-btn delete-btn" bindtap="confirmDelete">
+      删除 ({{selectedCount}})
+    </view>
+  </view>
+
+  <!-- 编辑项目信息弹层 -->
+  <view wx:if="{{editMode}}" class="edit-mask">
+    <view class="edit-panel">
+      <view class="edit-panel-title">修改项目信息</view>
+
+      <view class="edit-field">
+        <text class="edit-label">项目标题</text>
+        <input class="edit-input"
+               placeholder="请输入项目标题"
+               value="{{editTitle}}"
+               bindinput="onEditTitleInput" />
+      </view>
+
+      <view class="edit-field">
+        <text class="edit-label">项目描述</text>
+        <textarea class="edit-textarea"
+                  placeholder="可选：补充项目描述"
+                  value="{{editDescription}}"
+                  bindinput="onEditDescInput" />
+      </view>
+
+      <view class="edit-field">
+        <text class="edit-label">举办日期</text>
+        <picker mode="date"
+                value="{{editEventDate}}"
+                bindchange="onEditEventDateChange">
+          <view class="edit-picker">
+            {{editEventDate || '请选择活动日期（可选）'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="edit-actions">
+        <view class="edit-btn edit-delete" bindtap="onDeleteProjectTap">删除项目</view>
+        <view class="edit-btn edit-cancel" bindtap="cancelEdit">取消</view>
+        <view class="edit-btn edit-save" bindtap="saveEdit">保存</view>
+      </view>
+    </view>
   </view>
 </view>
+<transfer-fab
+  selected-count="{{transferCount}}"
+  bind:confirm="onFabConfirm"
+  bind:cancel="onFabCancel"
+  bind:download="onFabDownload"
+/>

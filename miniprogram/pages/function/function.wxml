@@ -1,0 +1,17 @@
+<!-- pages/functions/functions.wxml -->
+<view class="page">
+  <view class="page-title">功能中心</view>
+
+  <view class="func-grid">
+    <block wx:for="{{features}}" wx:key="key">
+      <view
+        class="func-item"
+        data-key="{{item.key}}"
+        bindtap="onFeatureTap"
+      >
+        <view class="func-icon">{{item.icon}}</view>
+        <view class="func-text">{{item.title}}</view>
+      </view>
+    </block>
+  </view>
+</view>

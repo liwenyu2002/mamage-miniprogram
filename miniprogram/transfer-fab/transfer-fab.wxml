@@ -1,0 +1,46 @@
+<view
+  class="transfer-fab-wrapper"
+  style="top: {{fabTop}}px; right: {{fabRight}}px;"
+>
+  <!-- 展开时的透明遮罩：点击只用来收起三个圆 -->
+  <view
+    wx:if="{{fabExpanded}}"
+    class="transfer-fab-mask"
+    catchtap="onMaskTap"
+  ></view>
+
+  <!-- 悬浮按钮本体 -->
+  <view class="transfer-fab">
+    <!-- 展开状态下的三个圆菜单 -->
+    <view wx:if="{{fabExpanded}}" class="transfer-fab-menu">
+      <view class="fab-circle fab-item fab-confirm" bindtap="onConfirmTap">
+        <text class="fab-item-text">✅</text>
+        <text class="fab-item-label">确认</text>
+      </view>
+
+      <view class="fab-circle fab-item fab-cancel" bindtap="onCancelTap">
+        <text class="fab-item-text">❌</text>
+        <text class="fab-item-label">取消</text>
+      </view>
+
+      <view class="fab-circle fab-item fab-download" bindtap="onDownloadTap">
+        <text class="fab-item-text">⬇</text>
+        <text class="fab-item-label">下载({{selectedCount}})</text>
+      </view>
+    </view>
+
+
+    <!-- 主圆按钮（既能拖，又能点） -->
+    <view
+      class="fab-circle fab-main"
+      catchtouchstart="onFabTouchStart"
+      catchtouchmove="onFabTouchMove"
+      catchtouchend="onFabTouchEnd"
+    >
+      <text class="fab-emoji">🛰️</text>
+      <view wx:if="{{selectedCount > 0}}" class="fab-counter">
+        已选{{selectedCount}}
+      </view>
+    </view>
+  </view>
+</view>

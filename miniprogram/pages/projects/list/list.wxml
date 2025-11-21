@@ -1,0 +1,43 @@
+<!-- pages/projects/list/list.wxml -->
+
+<view class="list-page">
+
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <input
+      class="search-input"
+      type="text"
+      placeholder="搜索项目名称/描述/日期"
+      value="{{keyword}}"
+      confirm-type="search"
+      bindinput="onInputChange"
+      bindconfirm="onSearchConfirm"
+    />
+    <view class="search-btn" bindtap="onSearchTap">搜索</view>
+  </view>
+
+  <!-- 项目列表 -->
+  <view class="mini-list">
+    <block wx:if="{{noResult}}">
+      <view class="empty-tip">暂无相关项目</view>
+    </block>
+
+    <block wx:for="{{projects}}" wx:key="id">
+      <view class="mini-item"
+            bindtap="openDetail"
+            data-index="{{index}}">
+        <image src="{{item.src}}" class="mini-image" mode="aspectFill" />
+        <view class="mini-meta">
+          <view class="frost-row mini-date">{{item.dateDisplay}}</view>
+          <view class="frost-row mini-title">{{item.title}}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 底部提示 -->
+  <view class="loading-tip" wx:if="{{loading}}">加载中...</view>
+  <view class="no-more-tip" wx:if="{{!loading && !hasMore && projects.length}}">
+    已经到底啦
+  </view>
+</view>

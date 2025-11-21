@@ -1,7 +1,8 @@
 <view class="mini-item" bindtap="onTap">
   <image src="{{item.src}}" class="mini-image" mode="aspectFill" />
   <view class="mini-meta">
-    <view class="mini-meta-text">{{item.date}} · {{item.title}}</view>
+    <view class="frost-row mini-date">{{item.date}}</view>
+    <view class="frost-row mini-title">{{item.title}}</view>
   </view>
-  <view class="mini-status {{item.statusClass}}">{{item.status}}</view>
+  <!-- 状态已移除 -->
 </view>

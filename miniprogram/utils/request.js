@@ -1,7 +1,7 @@
 // utils/request.js
 
 // Mac mini 的实际 IP
-const BASE_URL = 'https://api.wenyuli.site';
+const BASE_URL = 'https://api.wenyuli.site:3000';
 function request(path, options = {}) {
   const url = `${BASE_URL}${path}`;
   const method = options.method || 'GET';

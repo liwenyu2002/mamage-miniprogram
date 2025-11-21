@@ -5,10 +5,9 @@
   "pages/upload/publish/publish",
   "pages/upload/publish_success/publish_success",
     "pages/profile/profile",
-    "pages/projects/list"
+    "pages/projects/list/list"
     ,"pages/projects/detail",
-    "pages/upload/upload_to_project/upload_to_project"
-
+    "pages/function/function"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -24,7 +23,7 @@
     "custom": true,
     "list": [
       { "pagePath": "pages/index/index", "text": "首页" },
-      { "pagePath": "pages/upload/upload", "text": "上传" },
+      { "pagePath": "pages/function/function", "text": "上传" },
       { "pagePath": "pages/profile/profile", "text": "我的" }
     ]
   }

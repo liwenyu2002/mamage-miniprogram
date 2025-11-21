@@ -1,0 +1,100 @@
+/* 外层包裹：固定在右侧中部 */
+.transfer-fab-wrapper {
+  position: fixed;
+  z-index: 1500;
+}
+
+
+/* 展开时的透明遮罩：点击只用来收起菜单 */
+.transfer-fab-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: 1490;
+}
+
+/* 悬浮按钮本体在遮罩之上 */
+.transfer-fab {
+  position: relative;
+  z-index: 1501;
+}
+
+/* 通用圆形按钮（磨砂玻璃） */
+.fab-circle {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.78);
+  border: 1rpx solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8rpx 22rpx rgba(0, 0, 0, 0.14);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* 主按钮：稍微突出一点 */
+.fab-main {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #111;
+}
+
+/* 主按钮里的 emoji */
+.fab-emoji {
+  font-size: 42rpx;
+}
+
+/* 已选数量的小标签 */
+.fab-counter {
+  margin-top: 4rpx;
+  padding: 2rpx 10rpx;
+  border-radius: 999rpx;
+  font-size: 20rpx;
+  line-height: 1.4;
+  background: rgba(17, 17, 17, 0.8);
+  color: #fff;
+}
+
+/* 展开出来的三个圆菜单：竖直排在左边 */
+.transfer-fab-menu {
+  position: absolute;
+  right: 128rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+}
+
+.fab-item:not(:last-child) {
+  margin-bottom: 18rpx;
+}
+
+.fab-item-text {
+  font-size: 30rpx;
+  margin-bottom: 4rpx;
+}
+
+.fab-item-label {
+  font-size: 20rpx;
+  color: #222;
+}
+
+.fab-confirm {
+  background: rgba(209, 248, 225, 0.9);
+}
+
+.fab-cancel {
+  background: rgba(255, 224, 224, 0.9);
+}
+
+.fab-download {
+  background: rgba(222, 231, 255, 0.9);
+}

@@ -1,50 +1,61 @@
+/* pages/projects/detail.wxss */
+
 .detail-page {
   padding: 24rpx 20rpx 160rpx;
   color: #fff;
 }
+
 .header {
   margin-bottom: 14rpx;
 }
+
 .title {
   font-size: 32rpx;
   font-weight: bold;
 }
+
 .meta-row {
   display: flex;
   align-items: center;
   gap: 12rpx;
   margin-top: 8rpx;
 }
+
 .date {
   font-size: 22rpx;
   color: #ddd;
 }
-.status {
-  padding: 6rpx 10rpx;
-  border-radius: 8rpx;
+
+/* 头部右侧“修改信息”按钮 */
+.edit-entry {
+  margin-left: auto;
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  background: rgba(255, 255, 255, 0.06);
   color: #fff;
+  border: 1rpx solid rgba(255, 255, 255, 0.12);
 }
-.status-active {
-  background: #00c853;
-}
-.status-finished {
-  background: #111;
-}
+
 .creator {
   font-size: 20rpx;
   color: #ccc;
 }
+
 .detail-image {
   width: 100%;
   margin-top: 12rpx;
 }
+
 .content {
   margin-top: 18rpx;
 }
+
 .section-title {
   font-size: 26rpx;
   margin-bottom: 8rpx;
 }
+
 .description {
   color: #ddd;
   line-height: 1.6;
@@ -53,7 +64,9 @@
 /* gallery styles */
 .gallery {
   padding: 18rpx 0;
+  position: relative;
 }
+
 .gallery-title {
   color: #ddd;
   font-size: 26rpx;
@@ -65,9 +78,11 @@
   flex-wrap: wrap;
   gap: 12rpx;
 }
+
 .gallery-item-grid {
   width: 32%;
 }
+
 .thumb-wrap {
   position: relative;
   width: 100%;
@@ -76,6 +91,7 @@
   border-radius: 8rpx;
   background: #222;
 }
+
 .gallery-thumb-grid {
   position: absolute;
   left: 0;
@@ -85,21 +101,234 @@
   display: block;
 }
 
-/* Floating supplement button in the top-right corner */
+/* 悬浮“我要补充照片”按钮 */
 .supplement-fab {
   position: fixed;
   top: 28rpx;
   right: 24rpx;
   z-index: 1200;
-  background: #e6e6e6;
+  background: rgba(255, 255, 255, 0.884);
   color: #111;
-  border-radius: 18rpx;
-  padding: 18rpx 22rpx;
-  font-size: 28rpx;
-  font-weight: 700;
-  box-shadow: 0 6rpx 18rpx rgba(0, 0, 0, 0.12);
-  border: 1rpx solid rgba(0, 0, 0, 0.06);
+  border-radius: 12rpx;        
+  padding: 10rpx 18rpx;       
+  font-size: 26rpx;
+  font-weight: 600;
+
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.10);
+  border: 1rpx solid rgba(255, 255, 255, 0.8);
 }
+
 .supplement-fab:active {
   opacity: 0.95;
 }
+
+/* 删除相关样式 */
+.delete-toggle-fab {
+  position: absolute;
+  top: 6rpx;
+  right: 6rpx;
+  z-index: 1200;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  border-radius: 18rpx;
+  padding: 8rpx 12rpx;
+  font-size: 24rpx;
+  font-weight: 700;
+  box-shadow: 0 6rpx 18rpx rgba(0, 0, 0, 0.12);
+  border: 1rpx solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+/* 全选按钮 */
+.select-all-fab {
+  position: absolute;
+  top: 6rpx;
+  left: 6rpx;
+  z-index: 1200;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  border-radius: 18rpx;
+  padding: 8rpx 12rpx;
+  font-size: 24rpx;
+  font-weight: 700;
+  box-shadow: 0 6rpx 18rpx rgba(0, 0, 0, 0.12);
+  border: 1rpx solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.delete-checkbox {
+  position: absolute;
+  right: 8rpx;
+  top: 8rpx;
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 999rpx;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  z-index: 100;
+}
+
+.delete-checkbox.selected {
+  background: #ff5252;
+}
+
+/* 底部操作栏：保存/删除 */
+.action-bar {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 20rpx;
+  z-index: 1400;
+  display: flex;
+  gap: 18rpx;
+}
+
+.action-btn {
+  padding: 14rpx 26rpx;
+  border-radius: 36rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.12);
+}
+
+.save-btn {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  border: 1rpx solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(6px);
+}
+
+.delete-btn {
+  background: #ff1744;
+  color: #fff;
+}
+
+/* 上传控制按钮 */
+.staging-area {
+  margin-top: 18rpx;
+}
+
+.upload-controls {
+  display: flex;
+  gap: 18rpx;
+  justify-content: center;
+  margin-top: 14rpx;
+}
+
+.upload-controls .btn {
+  padding: 14rpx 26rpx;
+  border-radius: 36rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.12);
+}
+
+.upload-controls .cancel {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  border: 1rpx solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(6px);
+}
+
+.upload-controls .confirm {
+  background: #ff1744;
+  color: #fff;
+}
+
+/* 编辑弹层蒙版 */
+.edit-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 编辑面板 */
+.edit-panel {
+  width: 86%;
+  max-height: 80%;
+  background: #111;
+  border-radius: 20rpx;
+  padding: 24rpx 24rpx 20rpx;
+  box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-panel-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  margin-bottom: 18rpx;
+}
+
+.edit-field {
+  margin-bottom: 18rpx;
+}
+
+.edit-label {
+  display: block;
+  font-size: 24rpx;
+  margin-bottom: 8rpx;
+  color: #ddd;
+}
+
+.edit-input,
+.edit-textarea,
+.edit-picker {
+  width: 100%;
+  padding: 16rpx 18rpx;
+  border-radius: 12rpx;
+  background: #1b1b1b;
+  color: #fff;
+  font-size: 26rpx;
+  box-sizing: border-box;
+}
+
+.edit-textarea {
+  min-height: 160rpx;
+}
+
+.edit-picker {
+  line-height: 1.4;
+}
+
+.edit-actions {
+  margin-top: 6rpx;
+  display: flex;
+  justify-content: flex-end;
+  gap: 18rpx;
+}
+
+.edit-btn {
+  padding: 12rpx 28rpx;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+  font-weight: 700;
+  box-shadow: 0 6rpx 18rpx rgba(0, 0, 0, 0.25);
+}
+
+.edit-cancel {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  border: 1rpx solid rgba(255, 255, 255, 0.12);
+}
+
+.edit-save {
+  background: #00c853;
+  color: #fff;
+}
+.edit-delete {
+  background: #ff1744;
+  color: #fff;
+}
+

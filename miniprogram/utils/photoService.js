@@ -1,5 +1,3 @@
-// utils/photoService.js
-
 const { request } = require('./request.js');
 
 /**
@@ -17,6 +15,22 @@ function fetchLatestByType(type, limit = 10) {
   });
 }
 
+/**
+ * 从指定项目里随机取若干照片
+ * 对应：GET /api/photos?projectId=xxx&limit=xxx&random=1
+ */
+function fetchRandomByProject(projectId, limit = 4) {
+  return request('/api/photos', {
+    method: 'GET',
+    data: {
+      projectId,
+      limit,
+      random: 1
+    }
+  });
+}
+
 module.exports = {
-  fetchLatestByType
+  fetchLatestByType,
+  fetchRandomByProject
 };

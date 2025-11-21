@@ -21,7 +21,7 @@ Component({
       const route = `/${current.route}`;
       let selected = -1;
       if (route === '/pages/index/index') selected = 0;
-      else if (route === '/pages/upload/upload') selected = 1;
+      else if (route === '/pages/function/function') selected = 1;
       else if (route === '/pages/profile/profile') selected = 2;
       this.setData({ selected });
     },
